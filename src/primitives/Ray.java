@@ -4,9 +4,15 @@ public class Ray {
     private Point p0;
     private Vector dir;
 
+    /**
+     * Construcor for 'Ray'
+     * 
+     * @param p0
+     * @param dir
+     */
     public Ray(Point p0, Vector dir) {
         this.p0 = p0;
-        this.dir = dir.normalize() ;
+        this.dir = dir.normalize();
     }
 
     @Override
@@ -33,27 +39,14 @@ public class Ray {
 
     @Override
     public String toString() {
-        return  "p0= " +p0.toString()+"dir= " +dir.toString();
+        return "p0= " + p0.toString() + "dir= " + dir.toString();
     }
 
     public Point getP0() {
         return p0;
     }
 
-    public void setP0(Point p0) {
-        this.p0 = p0;
-    }
-
     public Vector getDir() {
         return dir;
     }
-
-    public void setDir(Vector dir) {
-        this.dir = dir;
-    }
-    
-    
-    
-    
-
 }

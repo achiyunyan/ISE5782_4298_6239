@@ -15,6 +15,16 @@ public class Point {
         this.xyz = new Double3(x, y, z);
     }
 
+    /**
+     * Constructor for the class 'Point'.
+     * Gets a Double3 parameter and create a new Point
+     * 
+     * @param xyz
+     */
+    public Point(Double3 xyz) {
+        this.xyz = xyz;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

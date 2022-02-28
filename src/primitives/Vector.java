@@ -24,7 +24,7 @@ public class Vector extends Point {
      */
     private Vector(Double3 xyz) {
         super(xyz.d1, xyz.d2, xyz.d3);
-        if (Util.isZero(xyz.d1) && Util.isZero(xyz.d2) && Util.isZero(xyz.d3))
+        if (xyz==Double3.ZERO)
             throw new IllegalArgumentException();
     }
 
@@ -66,6 +66,16 @@ public class Vector extends Point {
      */
     public Vector subtract(Vector vector) {
         return new Vector(xyz.subtract(vector.xyz));
+    }
+
+    /**
+     * Returns a new vector which is the original scaled by the scalar
+     * 
+     * @param scalar
+     * @return Vector
+     */
+    public Vector scale(double scalar) {
+        return new Vector(xyz.scale(scalar));
     }
 
     /**
@@ -115,16 +125,6 @@ public class Vector extends Point {
      */
     public double length() {
         return Math.sqrt(lengthSquared());
-    }
-
-    /**
-     * Returns a new vector which is the original scaled by the scalar
-     * 
-     * @param scalar
-     * @return Vector
-     */
-    public Vector scale(double scalar) {
-        return new Vector(xyz.scale(scalar));
     }
 
     /**
