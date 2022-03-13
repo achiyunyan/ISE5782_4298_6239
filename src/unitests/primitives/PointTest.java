@@ -19,8 +19,14 @@ public class PointTest {
         // ============ Equivalence Partitions Tests ==============
 
         // TC01: There is a simple single test here
-        Point p = new Point(1, 1, 1);
-        assertEquals(p.add(new Vector(1, -1, 0)), new Point(2, 0, 1), "Point Wrong Addition!");
+        Point p1 = new Point(1, 1, 1);
+        assertEquals(p1.add(new Vector(1, -1, 0)), new Point(2, 0, 1), "Point Wrong Addition!");
+
+        // =============== Boundary Values Tests ==================
+
+        // TC02: Zero
+        Point p2 = new Point(1, 2, 3);
+        assertEquals(p2.add(new Vector(-1, -2, -3)), new Point(0, 0, 0), "Point Wrong Addition!");
     }
 
     /**
@@ -32,7 +38,13 @@ public class PointTest {
 
         // TC01: There is a simple single test here
         Point p = new Point(1, 1, 1);
-        assertEquals(p.subtract(new Vector(1, -1, 0)), new Point(0, 2, 1), "Point Wrong Subtraction!");
+        assertEquals(p.subtract(new Point(1, -1, 0)), new Vector(0, 2, 1), "Point Wrong Subtraction!");
+
+        // =============== Boundary Values Tests ==================
+
+        // TC02: Zero
+        Point p2 = new Point(2, 3, 4);
+        assertEquals(p2.add(new Vector(1, 2, 3)), new Point(1, 1, 1), "Point Wrong Addition!");
     }
 
     /**

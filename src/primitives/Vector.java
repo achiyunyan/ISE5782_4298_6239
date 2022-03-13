@@ -24,7 +24,7 @@ public class Vector extends Point {
      */
     private Vector(Double3 xyz) {
         super(xyz.d1, xyz.d2, xyz.d3);
-        if (xyz==Double3.ZERO)
+        if (Util.isZero(this.xyz.d1) && Util.isZero(this.xyz.d2) && Util.isZero(this.xyz.d3))
             throw new IllegalArgumentException();
     }
 
@@ -133,6 +133,6 @@ public class Vector extends Point {
      * @return Vector
      */
     public Vector normalize() {
-        return this.scale(1 / this.length());// the scale operation will return a new vector
+        return this.scale(1 / this.length()); // the scale operation will return a new vector
     }
 }

@@ -63,7 +63,7 @@ public class Point {
      * @return Vector
      */
     public Vector subtract(Point point) {
-        Double3 sub = point.xyz.subtract(xyz);
+        Double3 sub = xyz.subtract(point.xyz);
         return new Vector(sub.d1, sub.d2, sub.d3);
     }
 
