@@ -45,6 +45,29 @@ public class Point {
     }
 
     /**
+     * Returns the result of the addition of the param 'vector' to the calling Point
+     * 
+     * @param vector
+     * @return point
+     */
+    public Point add(Vector vector) {
+        Double3 add = xyz.add(vector.xyz);
+        return new Point(add.d1, add.d2, add.d3);
+    }
+
+    /**
+     * Returns the result of the subtract of the param 'vector' from the calling
+     * Point
+     * 
+     * @param vector
+     * @return Vector
+     */
+    public Vector subtract(Point point) {
+        Double3 sub = point.xyz.subtract(xyz);
+        return new Vector(sub.d1, sub.d2, sub.d3);
+    }
+
+    /**
      * Returns the squared distance between the calling point to the param 'point'.
      * Calculated by the pythagorean sentence
      * 
@@ -66,28 +89,5 @@ public class Point {
      */
     public double distance(Point point) {
         return Math.sqrt(distanceSquared(point));
-    }
-
-    /**
-     * Returns the result of the addition of the param 'vector' to the calling Point
-     * 
-     * @param vector
-     * @return point
-     */
-    public Point add(Vector vector) {
-        Double3 add = xyz.add(vector.xyz);
-        return new Point(add.d1, add.d2, add.d3);
-    }
-
-    /**
-     * Returns the result of the subtract of the param 'vector' from the calling
-     * Point
-     * 
-     * @param vector
-     * @return Vector
-     */
-    public Vector subtract(Point point) {
-        Double3 sub = point.xyz.subtract(xyz);
-        return new Vector(sub.d1, sub.d2, sub.d3);
     }
 }
