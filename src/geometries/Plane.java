@@ -1,5 +1,7 @@
 package geometries;
 
+import java.text.Normalizer;
+
 import primitives.*;
 
 public class Plane implements Geometry {
@@ -27,7 +29,10 @@ public class Plane implements Geometry {
      */
     public Plane(Point q0, Point q1, Point q2) {
         this.q0 = q0;
-        this.normal = null;
+        Vector v1 = q0.subtract(q1);
+        Vector v2 = q0.subtract(q2);
+        Vector v3 = v1.crossProduct(v2);
+        this.normal = v3.normalize();
     }
 
     @Override
@@ -39,7 +44,7 @@ public class Plane implements Geometry {
      * Returns the Normal to a given Point
      */
     public Vector getNormal(Point point) {
-        return null;
+        return normal;
     }
 
     public Point getQ0() {

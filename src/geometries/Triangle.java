@@ -17,7 +17,7 @@ public class Triangle extends Polygon {
 
     @Override
     public Vector getNormal(Point point) {
-        return null;
+        return super.getNormal(point);
     }
 
     @Override

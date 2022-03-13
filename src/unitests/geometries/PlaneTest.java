@@ -8,9 +8,6 @@ import primitives.*;
 import geometries.*;
 
 public class PlaneTest {
-    /**
-     * Test method for {@link geometries.Plane#getNormal(geometries.Plane)}.
-     */
     @Test
     void testConstructor() {
         // =============== Boundary Values Tests ==================
@@ -25,6 +22,7 @@ public class PlaneTest {
 				() -> new Plane(new Point(0, 0, 0), new Point(1, 1, 1), new Point(2, 2, 2)),
 				"Constructed a Plane with 2 identical Points");
     }
+
     /**
      * Test method for {@link geometries.Plane#getNormal(geometries.Plane)}.
      */
