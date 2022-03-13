@@ -4,6 +4,7 @@
 import primitives.*;
 import static java.lang.System.out;
 import static primitives.Util.*;
+import geometries.*;
 
 /**
  * Test program for the 1st stage
@@ -19,6 +20,8 @@ public final class Main {
 	 */
 	public static void main(String[] args) {
 
+		Cylinder t1 = new Cylinder(new Ray(new Point(0, 0, 0), new Vector(0, 0, 1)), 3,5);
+		t1.getNormal(new Point(0, 0, 0));
 		try { // test zero vector
 			new Vector(0, 0, 0);
 			out.println("ERROR: zero vector does not throw an exception");

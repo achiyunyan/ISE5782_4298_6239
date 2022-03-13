@@ -2,6 +2,7 @@ package geometries;
 
 import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 
 public class Cylinder extends Tube {
@@ -21,8 +22,26 @@ public class Cylinder extends Tube {
 
     @Override
     public Vector getNormal(Point point) {
-        // TODO Auto-generated method stub
-        return null;
+        double distance =point.distance(axisRay.getP0());
+        Vector axisVec = axisRay.getDir();
+        
+        if(Util.isZero(distance))//the point is P0
+            return axisRay.getDir().scale(-1).normalize();
+        Vector toP0 =point.subtract(axisRay.getP0());  
+        if(Util.isZero(distance-height)&&Util.isZero(axisVec.dotProduct(toP0)-axisVec.length()*toP0.length()))// point is on the center of the far side from P0
+            return axisVec.normalize();
+        else if(Util.isZero(axisVec.dotProduct(point.subtract(axisRay.getP0()))))
+            return axisVec.scale(-1).normalize();
+        else if(Util.isZero(axisVec.dotProduct(point.subtract(axisRay.getP0().add(axisVec.scale(height))))))    
+            return axisVec.normalize();
+        else
+        {
+            double t = axisRay.getDir().dotProduct(point.subtract(axisRay.getP0()));
+            Point O = axisRay.getP0().add(axisRay.getDir().scale(t));
+            Vector v = point.subtract(O);
+            return v.normalize();
+        }    
+        
     }
 
     @Override
