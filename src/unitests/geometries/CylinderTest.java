@@ -7,7 +7,7 @@ import geometries.*;
 
 public class CylinderTest {
     /**
-     * Test method for {@link geometries.Plane#getNormal(geometries.Plane)}.
+     * Test method for {@link geometries.Cylinder#getNormal(geometries.Cylinder)}.
      */
     @Test
     void testGetNormal() {
