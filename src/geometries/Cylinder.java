@@ -28,6 +28,7 @@ public class Cylinder extends Tube {
         // the point is P0
         if (Util.isZero(distance))
             return axisRay.getDir().scale(-1).normalize();
+            
         Vector toP0 = point.subtract(axisRay.getP0());
         // point is on the center of the far side from P0
         if (Util.isZero(distance - height) && Util.isZero(axisVec.dotProduct(toP0) - axisVec.length() * toP0.length()))
