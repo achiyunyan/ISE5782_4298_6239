@@ -23,18 +23,9 @@ public class Ray {
             return false;
         if (getClass() != obj.getClass())
             return false;
+            
         Ray other = (Ray) obj;
-        if (dir == null) {
-            if (other.dir != null)
-                return false;
-        } else if (!dir.equals(other.dir))
-            return false;
-        if (p0 == null) {
-            if (other.p0 != null)
-                return false;
-        } else if (!p0.equals(other.p0))
-            return false;
-        return true;
+        return this.dir.equals(other.dir)&&this.p0.equals(other.p0);
     }
 
     @Override

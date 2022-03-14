@@ -14,7 +14,7 @@ public class Vector extends Point {
     public Vector(double x, double y, double z) {
         super(x, y, z);
         if (Util.isZero(xyz.d1) && Util.isZero(xyz.d2) && Util.isZero(xyz.d3))
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("the zero vector is illegal!");
     }
 
     /**
@@ -25,18 +25,18 @@ public class Vector extends Point {
     private Vector(Double3 xyz) {
         super(xyz.d1, xyz.d2, xyz.d3);
         if (Util.isZero(this.xyz.d1) && Util.isZero(this.xyz.d2) && Util.isZero(this.xyz.d3))
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("the zero vector is illegal!");
     }
 
     @Override
     public boolean equals(Object obj) {
-
         if (this == obj)
             return true;
         if (obj == null)
             return false;
-        if (!(obj instanceof Point))
+        if (!(obj instanceof Vector))
             return false;
+            
         Point other = (Point) obj;
         return super.equals(other);
     }

@@ -35,8 +35,7 @@ public class Point {
             return false;
 
         Point other = (Point) obj;
-        other.xyz.equals(xyz);
-        return true;
+        return other.xyz.equals(xyz);
     }
 
     @Override
