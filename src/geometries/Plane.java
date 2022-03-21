@@ -41,7 +41,11 @@ public class Plane implements Geometry {
     }
 
     /**
-     * Returns the Normal to a given Point
+     * Returns the Normal of the Plane to a given Point.
+     * 
+     * @param point
+     * 
+     * @return Vector
      */
     public Vector getNormal(Point point) {
         return normal;

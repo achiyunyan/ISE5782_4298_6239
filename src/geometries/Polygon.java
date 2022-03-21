@@ -84,6 +84,13 @@ public class Polygon implements Geometry {
 		size = vertices.length;
 	}
 
+	/**
+     * Returns the Normal of the Polygon to a given Point.
+     * 
+     * @param point
+     * 
+     * @return Vector
+     */
 	@Override
 	public Vector getNormal(Point point) {
 		return plane.getNormal();
