@@ -22,7 +22,13 @@ public class Tube implements Geometry {
     public double getRadius() {
         return radius;
     }
-
+/**
+     * Returns the Normal of the Tube to a given Point.
+     * 
+     * @param point
+     * 
+     * @return Vector
+     */
     @Override
     public Vector getNormal(Point point) {
         double t = axisRay.getDir().dotProduct(point.subtract(axisRay.getP0()));

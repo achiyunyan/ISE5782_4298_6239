@@ -18,6 +18,13 @@ public class Sphere implements Geometry {
         this.radius = radius;
     }
 
+    /**
+     * Returns the Normal of the Sphere to a given Point.
+     * 
+     * @param point
+     * 
+     * @return Vector
+     */
     @Override
     public Vector getNormal(Point point) {
         Vector v = point.subtract(center);

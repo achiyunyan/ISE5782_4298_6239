@@ -35,6 +35,5 @@ public class CylinderTest {
         // TC05 : Base 2 center
         assertEquals(t1.getNormal(new Point(0, 0, 0)), t1.getAxisRay().getDir().scale(-1), "Tube Wrong Normal!");
         assertEquals(t1.getNormal(new Point(0, 0, 0)).length(), 1, "Tube Wrong Normal!");
-
     }
 }

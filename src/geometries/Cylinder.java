@@ -20,6 +20,13 @@ public class Cylinder extends Tube {
         this.height = height;
     }
 
+    /**
+     * Returns the Normal of the Cylinder to a given Point.
+     * 
+     * @param point
+     * 
+     * @return Vector
+     */
     @Override
     public Vector getNormal(Point point) {
         double distanceBase1 = point.distance(axisRay.getP0());
