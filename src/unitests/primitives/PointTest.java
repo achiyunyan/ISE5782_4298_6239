@@ -44,7 +44,7 @@ public class PointTest {
 
         // TC02: Zero
         Point p2 = new Point(2, 3, 4);
-        assertEquals(p2.add(new Vector(1, 2, 3)), new Point(1, 1, 1), "Point Wrong Addition!");
+        assertEquals(p2.subtract(new Vector(1, 2, 3)), new Vector(1, 1, 1), "Point Wrong Subtraction!");
     }
 
     /**

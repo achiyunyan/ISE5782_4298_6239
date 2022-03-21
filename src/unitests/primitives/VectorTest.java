@@ -127,24 +127,14 @@ public class VectorTest {
 
     @Test
     void testNormalize() {
+        Vector v = new Vector(0, 3, 4);
+        Vector n = v.normalize();
         // ============ Equivalence Partitions Tests ==============
+        // TC01: Simple test
+        assertEquals(1d, n.lengthSquared(), 0.00001, "wrong normalized vector length");
+        assertThrows(IllegalArgumentException.class, () -> v.crossProduct(n), //
+                "normalized vector is not in the same direction");
+        assertEquals(new Vector(0, 0.6, 0.8), n, "wrong normalized vector");
 
-        // TC01: Length is bigger than 1
-        Vector v1 = new Vector(1, 2, 3);
-        assertEquals(v1.normalize().length(), 1, "Vector Wrong Normalize!");
-
-        // TC02: Length is bigger than 1
-        Vector v2 = new Vector(0, 0, 2);
-        assertEquals(v2.normalize(), new Vector(0, 0, 1), "Vector Wrong Normalize!");
-
-        // TC03: Length is smaller than 1
-        Vector v3 = new Vector(0, 0.5, 0);
-        assertEquals(v3.normalize(), new Vector(0, 1, 0), "Vector Wrong Normalize!");
-
-        // =============== Boundary Values Tests ==================
-
-        // TC04: Length equals 1
-        Vector v4 = new Vector(0, Math.sqrt(0.5), Math.sqrt(0.5));
-        assertEquals(v4.normalize(), new Vector(0, Math.sqrt(0.5), Math.sqrt(0.5)), "Vector Wrong Normalize!");
     }
 }

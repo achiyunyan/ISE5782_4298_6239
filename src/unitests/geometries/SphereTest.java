@@ -15,7 +15,7 @@ public class SphereTest {
 
         // TC01: Normal Normal
         Sphere s1 = new Sphere(new Point(0, 0, 0), 3);
-        assertEquals(s1.getNormal(new Point(0, 0, 3)), new Vector(0, 0, 3), "Sphere Wrong Normal!");
+        assertEquals(s1.getNormal(new Point(0, 0, 3)), new Vector(0, 0, 1), "Sphere Wrong Normal!");
         assertEquals(s1.getNormal(new Point(0, 0, 3)).length(), 1, "Sphere Wrong Normal!");
     }
 }
