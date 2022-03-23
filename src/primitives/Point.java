@@ -89,4 +89,12 @@ public class Point {
     public double distance(Point point) {
         return Math.sqrt(distanceSquared(point));
     }
+
+    public double getX() {
+        return xyz.d1;
+    }
+
+    public double getZ() {
+        return xyz.d3;
+    }
 }

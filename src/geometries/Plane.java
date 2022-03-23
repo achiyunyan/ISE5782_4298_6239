@@ -1,8 +1,8 @@
 package geometries;
 
-import java.text.Normalizer;
-
+import java.util.List;
 import primitives.*;
+import static primitives.Util.*;
 
 public class Plane implements Geometry {
     private Point q0;
@@ -57,5 +57,28 @@ public class Plane implements Geometry {
 
     public Vector getNormal() {
         return normal;
+    }
+
+    /**
+     * Return the intersections between the plane and the ray
+     * can be 1 , or 0 .
+     * 
+     * @param ray
+     * 
+     * @return List<Point>
+     */
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        double nv = normal.dotProduct(ray.getDir());
+        if (isZero(nv))
+            return null;
+        double t = alignZero(normal.dotProduct(q0.subtract(ray.getP0())) / nv);
+        if (t > 0) {
+            Point intersect = ray.getP0().add(ray.getDir().scale(t));
+            List<Point> inter = List.of(intersect);
+            return inter;
+        }
+        return null;
+
     }
 }

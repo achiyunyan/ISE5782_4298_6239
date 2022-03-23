@@ -25,4 +25,9 @@ public class TubeTest {
         assertEquals(t2.getNormal(new Point(0, 3, 0)), new Vector(0, 1, 0), "Tube Wrong Normal!");
         assertEquals(t2.getNormal(new Point(0, 3, 0)).length(), 1, "Tube Wrong Normal!");
     }
+    
+    @Test
+	void testFindIntsersections() {
+	  
+	}
 }

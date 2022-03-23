@@ -1,5 +1,6 @@
 package geometries;
 
+import java.util.List;
 import primitives.*;
 
 public class Triangle extends Polygon {
@@ -31,5 +32,31 @@ public class Triangle extends Polygon {
     public String toString() {
         return "P1: " + vertices.get(0).toString() + "P2: " + vertices.get(1).toString() + "P3: "
                 + vertices.get(2).toString();
+    }
+    /**
+     * Return the intersections between the triangle and the ray
+     * can be 1 , or 0 .
+     * @param ray
+     * 
+     * @return List<Point>
+     */
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        List<Point> list = super.plane.findIntersections(ray);
+        if (list.size() == 0)
+            return null;
+        Vector v1 = vertices.get(0).subtract(ray.getP0());
+        Vector v2 = vertices.get(1).subtract(ray.getP0());
+        Vector v3 = vertices.get(2).subtract(ray.getP0());
+        Vector n1 = v1.crossProduct(v2).normalize();
+        Vector n2 = v2.crossProduct(v3).normalize();
+        Vector n3 = v3.crossProduct(v1).normalize();
+        Vector v = ray.getDir();
+        if (v.dotProduct(n1) > 0 && v.dotProduct(n2) > 0 && v.dotProduct(n3) > 0)
+            return list;
+        else if (v.dotProduct(n1) < 0 && v.dotProduct(n2) < 0 && v.dotProduct(n3) < 0)
+            return list;
+        return null;
+
     }
 }
