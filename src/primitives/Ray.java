@@ -32,6 +32,14 @@ public class Ray {
     public String toString() {
         return "p0= " + p0.toString() + "dir= " + dir.toString();
     }
+    /**
+     * Returns a point on a ray by the given scalar
+     * @param t1
+     * @return
+     */
+    public Point getPoint(double t) {
+        return p0.add(dir.scale(t));
+    }
 
     public Point getP0() {
         return p0;

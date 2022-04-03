@@ -1,6 +1,7 @@
 package unitests.geometries;
 
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import geometries.*;
@@ -74,9 +75,46 @@ public class PolygonTests {
 		double sqrt3 = Math.sqrt(1d / 3);
 		assertEquals(new Vector(sqrt3, sqrt3, sqrt3), pl.getNormal(new Point(0, 0, 1)), "Bad normal to trinagle");
 	}
-	
+
 	@Test
 	void testFindIntsersections() {
-	  
+		// ============ Equivalence Partitions Tests ==============
+		// only if the ray intersects with the plane :
+
+		Polygon polygon = new Polygon(new Point(1, 0, 0), new Point(0, 1, 0), new Point(-1, 0, 0), new Point(0, -1, 0));
+		Plane plane = new Plane(new Point(1, 0, 0), new Point(-1, 0, 0), new Point(0, 1, 0));
+
+		// TC01: The Ray intersects with the triangle
+		assertEquals(List.of(new Point(0, 0, 0)),
+				polygon.findIntersections(new Ray(new Point(0, 0, -1), new Vector(0, 0, 1))),
+				"Bad polygon intersection");
+		// TC02: The Ray intersects with the plane but not with the triangle(between two
+		// lines)
+		assertEquals(List.of(new Point(2, 0, 0)),
+				plane.findIntersections(new Ray(new Point(0, 0, -2), new Vector(2, 0, 2))),
+				"Must be intersection with the plane");
+		assertNull(polygon.findIntersections(new Ray(new Point(0, 0, -2), new Vector(2, 0, 2))),
+				"Bad triangle intersection");
+		// TC03: The Ray intersects with the plane but not with the triangle(not between
+		// two lines)
+		assertEquals(List.of(new Point(0.5, 1.5, 0)),
+				plane.findIntersections(new Ray(new Point(0, 0, -1), new Vector(0.5, 1.5, 1))),
+				"Must be intersection with the plane");
+		assertNull(polygon.findIntersections(new Ray(new Point(0, 0, -1), new Vector(0.5, 1.5, 1))),
+				"Bad triangle intersection");
+		// =============== Boundary Values Tests ==================
+
+		// TC01: The Ray intersects with the plane and on an edge of the polygon
+		assertNull(polygon.findIntersections(new Ray(new Point(0, 0, -1), new Vector(1, 0, 1))),
+				"Bad triangle intersection");
+		// TC02: The Ray intersects with the plane and on the side of the polygon
+		assertNull(polygon.findIntersections(new Ray(new Point(0, 0, -1), new Vector(0.5, 0.5, 1))),
+				"Bad triangle intersection");
+		// TC03: The Ray intersects with the plane but not with the polygon(on a line)
+		assertEquals(List.of(new Point(2, 1, 0)),
+				plane.findIntersections(new Ray(new Point(0, 0, -1), new Vector(2, 1, 1))),
+				"Must be intersection with the plane");
+		assertNull(polygon.findIntersections(new Ray(new Point(0, 0, -1), new Vector(2, 1, 1))),
+				"Bad triangle intersection");
 	}
 }

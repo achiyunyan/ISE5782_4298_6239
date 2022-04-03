@@ -43,7 +43,7 @@ public class Triangle extends Polygon {
     @Override
     public List<Point> findIntersections(Ray ray) {
         List<Point> list = super.plane.findIntersections(ray);
-        if (list.size() == 0)
+        if (list == null)
             return null;
         Vector v1 = vertices.get(0).subtract(ray.getP0());
         Vector v2 = vertices.get(1).subtract(ray.getP0());

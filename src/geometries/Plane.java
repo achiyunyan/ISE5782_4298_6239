@@ -74,7 +74,7 @@ public class Plane implements Geometry {
             return null;
         double t = alignZero(normal.dotProduct(q0.subtract(ray.getP0())) / nv);
         if (t > 0) {
-            Point intersect = ray.getP0().add(ray.getDir().scale(t));
+            Point intersect = ray.getPoint(t);
             List<Point> inter = List.of(intersect);
             return inter;
         }

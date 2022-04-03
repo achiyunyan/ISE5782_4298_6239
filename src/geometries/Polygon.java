@@ -85,20 +85,49 @@ public class Polygon implements Geometry {
 	}
 
 	/**
-     * Returns the Normal of the Polygon to a given Point.
-     * 
-     * @param point
-     * 
-     * @return Vector
-     */
+	 * Returns the Normal of the Polygon to a given Point.
+	 * 
+	 * @param point
+	 * 
+	 * @return Vector
+	 */
 	@Override
 	public Vector getNormal(Point point) {
 		return plane.getNormal();
 	}
 
+	/**
+     * Return the intersections between the polygon and the ray
+     * can be 1 , or 0 .
+     * @param ray
+     * 
+     * @return List<Point>
+     */
 	@Override
 	public List<Point> findIntersections(Ray ray) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Point> list = plane.findIntersections(ray);
+        if (list == null)
+            return null;
+		boolean positive = true, negative = true;
+		int size = vertices.size();
+		Vector[] vecs = new Vector[size];
+		Point p0 = ray.getP0();
+		Vector dir = ray.getDir();
+		for (int i = 0; i < size; i++) {
+			vecs[i] = vertices.get(i).subtract(p0);
+		}
+		for (int i = 0; i < size; i++) {
+			double d = Util.alignZero(vecs[i].crossProduct(vecs[(i + 1) % (size)]).normalize().dotProduct(dir));
+			if (d > 0)
+				negative = false;
+			else if (d < 0)
+				positive = false;
+			else
+				return null;	
+		}
+		
+		if(positive||negative)
+			return list;
+		return null;	
 	}
 }

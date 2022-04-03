@@ -65,18 +65,18 @@ public class Sphere implements Geometry {
         try {
             u = center.subtract(p0);
             double tm = alignZero(dir.dotProduct(u));
-            double d = Math.sqrt(u.lengthSquared() - tm * tm);
+            double d = Math.sqrt(alignZero(u.lengthSquared() - tm * tm));
             if (isZero(d - radius) || d > radius)
                 return null;
             double th = Math.sqrt(radius * radius - d * d);
             double t1 = tm + th;
             double t2 = tm - th;
             if (t1 > 0 && t2 > 0) {
-                return List.of(p0.add(dir.scale(t1)), p0.add(dir.scale(t2)));
+                return List.of(ray.getPoint(t1), ray.getPoint(t2));
             } else if (t1 > 0) {
-                return List.of(p0.add(dir.scale(t1)));
+                return List.of(ray.getPoint(t1));
             } else if (t2 > 0) {
-                return List.of(p0.add(dir.scale(t2)));
+                return List.of(ray.getPoint(t2));
             }
             return null;
         } catch (IllegalArgumentException exec) {
