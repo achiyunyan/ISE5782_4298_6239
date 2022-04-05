@@ -13,10 +13,10 @@ public class AmbientLight {
     }
 
     /**
-     * Constructor with 2 parameters
+     * Constructor with 2 Parameters
      * 
      * @param iA Original Color
-     * @param kA 
+     * @param kA Coefficient
      */
     public AmbientLight(Color iA, Double3 kA) {
         intensity = iA.scale(kA);
