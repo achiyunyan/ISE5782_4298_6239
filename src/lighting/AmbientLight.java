@@ -13,7 +13,7 @@ public class AmbientLight {
     }
 
     /**
-     * Constructor with 2 Parameters
+     * Constructor with 2 parameters
      * 
      * @param iA Original Color
      * @param kA Coefficient
