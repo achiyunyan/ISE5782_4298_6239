@@ -44,8 +44,8 @@ public class Camera {
      *
      * @param width  The new view plane's width.
      * @param height The new view plane's height.
-     * @throws IllegalArgumentException When distance illegal.
      * @return The camera itself.
+     * @throws IllegalArgumentException When distance illegal.
      */
     public Camera setVPSize(double width, double height) {
         if (width <= 0)
@@ -77,7 +77,7 @@ public class Camera {
 
     /**
      * Chaining method for setting the imageWriter of the camera
-     * 
+     *
      * @param imageWriter
      * @return the camera itself
      */
@@ -88,7 +88,7 @@ public class Camera {
 
     /**
      * Chaining method for setting the rayTracer of the camera
-     * 
+     *
      * @param rayTracerBasic
      * @return the camera itself
      */
@@ -98,16 +98,52 @@ public class Camera {
     }
 
     /**
-     * Render an image to the buffered image 
+     * Render an image to the buffered image
      */
-    public void renderImage()
-    {
-        if(iWriter==null)
+    public void renderImage() {
+        if (iWriter == null)
             throw new MissingResourceException("Missing ImageWriter!", "ImageWriter", null);
-        if(rTracerBasic == null)   
+        if (rTracerBasic == null)
             throw new MissingResourceException("Missing rayTracer!", "RayTracer", null);
 
-        throw new UnsupportedOperationException();    
+        for (int i = 0; i < iWriter.getNx(); i++)
+            for (int j = 0; j < iWriter.getNy(); j++)
+                iWriter.writePixel(i, j, castRay(i, j));
+    }
+
+    /**
+     * returns the color of the ray
+     * @param i
+     * @param j
+     * @return the color of the ray
+     */
+    public Color castRay(int i, int j) {
+        Ray ray = constructRay(iWriter.getNx(), iWriter.getNy(), i, j);
+        return rTracerBasic.traceRay(ray);
+    }
+
+    /**
+     * @param interval the space between grids
+     * @param color    the color of the lines
+     */
+    public void printGrid(int interval, Color color) {
+        if (iWriter == null)
+            throw new MissingResourceException("Missing ImageWriter!", "ImageWriter", null);
+
+        for (int i = 0; i < iWriter.getNx(); i++)
+            for (int j = 0; j < iWriter.getNy(); j++)
+                if (i % interval == 0 || j % interval == 0)
+                    iWriter.writePixel(i, j, color);
+    }
+
+    /**
+     * writes the image
+     */
+    public void writeToImage() {
+        if (iWriter == null)
+            throw new MissingResourceException("Missing ImageWriter!", "ImageWriter", null);
+
+        iWriter.writeToImage();
     }
 
     /**
@@ -150,5 +186,4 @@ public class Camera {
     public double getWidth() {
         return width;
     }
-
 }
