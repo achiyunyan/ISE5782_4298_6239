@@ -1,5 +1,7 @@
 package renderer;
 
+import java.util.MissingResourceException;
+
 import primitives.*;
 
 public class Camera {
@@ -9,10 +11,14 @@ public class Camera {
     private Vector vRight;
     private Vector vTo;
 
-    // View Plane fields
+    // View Plane Fields
     private double distance;
     private double height;
     private double width;
+
+    // Rendering fields
+    private ImageWriter iWriter;
+    private RayTracerBasic rTracerBasic;
 
     /**
      * Constructs a camera with location, to and up vectors.
@@ -70,6 +76,41 @@ public class Camera {
     }
 
     /**
+     * Chaining method for setting the imageWriter of the camera
+     * 
+     * @param imageWriter
+     * @return the camera itself
+     */
+    public Camera setImageWriter(ImageWriter imageWriter) {
+        this.iWriter = imageWriter;
+        return this;
+    }
+
+    /**
+     * Chaining method for setting the rayTracer of the camera
+     * 
+     * @param rayTracerBasic
+     * @return the camera itself
+     */
+    public Camera setRayTracer(RayTracerBasic rayTracerBasic) {
+        this.rTracerBasic = rayTracerBasic;
+        return this;
+    }
+
+    /**
+     * Render an image to the buffered image 
+     */
+    public void renderImage()
+    {
+        if(iWriter==null)
+            throw new MissingResourceException("Missing ImageWriter!", "ImageWriter", null);
+        if(rTracerBasic == null)   
+            throw new MissingResourceException("Missing rayTracer!", "RayTracer", null);
+
+        throw new UnsupportedOperationException();    
+    }
+
+    /**
      * The function calculate the center point of the pixel.
      *
      * @param nX Total number of pixels in the x dimension.
@@ -81,11 +122,11 @@ public class Camera {
     public Ray constructRay(int nX, int nY, int j, int i) {
         Point Pc = p0.add(vTo.scale(distance));
 
-        double Rx =Util.alignZero(width / nX);
+        double Rx = Util.alignZero(width / nX);
         double Ry = Util.alignZero(height / nY);
 
-        double xJ = Util.alignZero((j - (double)(nX - 1) / 2) * Rx);
-        double yI = Util.alignZero(-(i - (double)(nY - 1) / 2) * Ry);
+        double xJ = Util.alignZero((j - (double) (nX - 1) / 2) * Rx);
+        double yI = Util.alignZero(-(i - (double) (nY - 1) / 2) * Ry);
 
         Point pIJ = Pc;
         if (xJ != 0)

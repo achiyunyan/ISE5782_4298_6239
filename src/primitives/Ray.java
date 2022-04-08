@@ -1,5 +1,7 @@
 package primitives;
 
+import java.util.List;
+
 public class Ray {
     private Point p0;
     private Vector dir;
@@ -23,9 +25,9 @@ public class Ray {
             return false;
         if (getClass() != obj.getClass())
             return false;
-            
+
         Ray other = (Ray) obj;
-        return this.dir.equals(other.dir)&&this.p0.equals(other.p0);
+        return this.dir.equals(other.dir) && this.p0.equals(other.p0);
     }
 
     @Override
@@ -33,7 +35,33 @@ public class Ray {
         return "p0= " + p0.toString() + "dir= " + dir.toString();
     }
     /**
+     * Return the closest point to the 'p0' of the ray
+     * 
+     * @param list list of points
+     * @return the closest point to the 'p0' of the ray
+     */
+    public Point findClosestPoint(List<Point> list) {
+        if (list == null)
+            return null;
+        if (list.size() == 1)
+            return list.get(0);
+
+        int closest = 0;
+        double distanceFromClosest = list.get(0).distance(p0);
+        double x;
+        for (int i = 1; i < list.size(); i++) {
+            x = list.get(i).distance(p0);
+            if (x < distanceFromClosest) {
+                closest = i;
+                distanceFromClosest = x;
+            }
+        }
+        return list.get(closest);
+    }
+
+    /**
      * Returns a point on a ray by the given scalar
+     * 
      * @param t1
      * @return
      */

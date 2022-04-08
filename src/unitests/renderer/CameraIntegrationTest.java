@@ -10,6 +10,11 @@ import geometries.*;
 import renderer.*;
 
 public class CameraIntegrationTest {
+    /**
+     * @param geometry
+     * @param camera
+     * @return Number of Intersections
+     */
     int SumIntersections(Geometry geometry, Camera camera)
     {
         int sum = 0;
@@ -23,6 +28,9 @@ public class CameraIntegrationTest {
         return sum;
     }
 
+    /**
+     * Test method for Camera & Sphere Intersections
+     */
     @Test
     void CameraSphereIntersections() {
         // TC01: Sphere is In Front of the View Plane (2 Intersections)
@@ -50,6 +58,9 @@ public class CameraIntegrationTest {
         assertEquals(0, SumIntersections(sphere, camera), "Wrong Amount of Intersections!");
     }
 
+    /**
+     * Test method for Camera & Plane Intersections
+     */
     @Test
     void CameraPlaneIntersections() {
         // TC01: Plane is in front of the View Plane (Paralel)
@@ -72,6 +83,10 @@ public class CameraIntegrationTest {
         assertEquals(6, SumIntersections(plane, camera), "Wrong Amount of Intersections!");
     }
 
+    
+    /**
+     * Test method for Camera & Triangle Intersections
+     */
     @Test
     void CameraTriangleIntersections() {
         // TC01:
