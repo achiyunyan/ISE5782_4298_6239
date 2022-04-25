@@ -29,7 +29,7 @@ public class Camera {
      * @param vTo The direction to where the camera is looking.
      * @throws IllegalArgumentException When to and up vectors aren't orthogonal.
      */
-    public Camera(Point p0, Vector vUp, Vector vTo) {
+    public Camera(Point p0, Vector vTo, Vector vUp) {
         if (vUp.dotProduct(vTo) != 0)
             throw new IllegalArgumentException("Vectors are not vertical!");
 
@@ -113,6 +113,7 @@ public class Camera {
 
     /**
      * returns the color of the ray
+     * 
      * @param i
      * @param j
      * @return the color of the ray
