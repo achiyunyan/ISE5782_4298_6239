@@ -2,14 +2,12 @@ package lighting;
 
 import primitives.*;
 
-public class AmbientLight {
-    Color intensity;
-
+public class AmbientLight extends Light {
     /**
      * Default Constructor
      */
     public AmbientLight() {
-        intensity = Color.BLACK;
+        super(Color.BLACK);
     }
 
     /**
@@ -19,10 +17,6 @@ public class AmbientLight {
      * @param kA Coefficient
      */
     public AmbientLight(Color iA, Double3 kA) {
-        intensity = iA.scale(kA);
-    }
-
-    public Color getIntensity() {
-        return intensity;
+        super(iA.scale(kA));
     }
 }
