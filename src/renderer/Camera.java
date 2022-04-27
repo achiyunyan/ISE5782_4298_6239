@@ -100,7 +100,7 @@ public class Camera {
     /**
      * Render an image to the buffered image
      */
-    public void renderImage() {
+    public Camera renderImage() {
         if (iWriter == null)
             throw new MissingResourceException("Missing ImageWriter!", "ImageWriter", null);
         if (rTracerBasic == null)
@@ -109,6 +109,8 @@ public class Camera {
         for (int i = 0; i < iWriter.getNx(); i++)
             for (int j = 0; j < iWriter.getNy(); j++)
                 iWriter.writePixel(i, j, castRay(i, j));
+
+        return this;        
     }
 
     /**

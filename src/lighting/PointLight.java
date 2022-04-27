@@ -15,22 +15,22 @@ public class PointLight extends Light implements LightSource {
      * @param intensity
      * @param position
      */
-    protected PointLight(Color intensity, Point position) {
+    public PointLight(Color intensity, Point position) {
         super(intensity);
         this.position = position;
     }
 
-    public PointLight setkC(double kC) {
+    public PointLight setKc(double kC) {
         this.kC = kC;
         return this;
     }
 
-    public PointLight setkL(double kL) {
+    public PointLight setKl(double kL) {
         this.kL = kL;
         return this;
     }
 
-    public PointLight setkQ(double kQ) {
+    public PointLight setKq(double kQ) {
         this.kQ = kQ;
         return this;
     }
