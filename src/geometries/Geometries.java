@@ -6,15 +6,15 @@ import java.util.List;
 import primitives.Point;
 import primitives.Ray;
 
-public class Geometries implements Intersectable {
-    List<Intersectable> geometries;
+public class Geometries extends Intersectable {
+    List<Geometry> geometries;
 
     /**
      * Default ctor for geometries
      * 
      */
     public Geometries() {
-        this.geometries = new LinkedList<Intersectable>();// we only need to implement add so linked list is better;
+        this.geometries = new LinkedList<Geometry>();// we only need to implement add so linked list is better;
     }
 
     /**
@@ -22,9 +22,9 @@ public class Geometries implements Intersectable {
      * 
      * @param geometries
      */
-    public Geometries(Intersectable... geometries) {
-        this.geometries = new LinkedList<Intersectable>();
-        for (Intersectable geometry : geometries) {
+    public Geometries(Geometry... geometries) {
+        this.geometries = new LinkedList<Geometry>();
+        for (Geometry geometry : geometries) {
             this.geometries.add(geometry);
         }
     }
@@ -34,29 +34,32 @@ public class Geometries implements Intersectable {
      * 
      * @param geometries
      */
-    public void add(Intersectable... geometries) {
-        for (Intersectable geometry : geometries) {
+    public void add(Geometry... geometries) {
+        for (Geometry geometry : geometries) {
             this.geometries.add(geometry);
         }
     }
 
+    /**
+     * 
+     */
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         if (geometries.size() == 0)
-            return null;
+        return null;
         boolean intersections = false;
-        List<Point> result = new LinkedList<Point>();
-        for (Intersectable intersectable : geometries) {
-            List<Point> inter = intersectable.findIntersections(ray);
-            if (inter != null) {
+        List<GeoPoint> result = new LinkedList<GeoPoint>();
+        for (Geometry geometry : geometries) {
+            List<Point> geo = geometry.findIntersections(ray);
+            if (geo != null) {
                 intersections = true;
-                for (Point point : inter) {
-                    result.add(point);
+                for (Point point : geo) {
+                    result.add(new GeoPoint(geometry, point));
                 }
             }
         }
         if(intersections)
             return result;
-        return null;    
+        return null; 
     }
 }

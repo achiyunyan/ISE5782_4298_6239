@@ -38,11 +38,11 @@ public class Triangle extends Polygon {
      * can be 1 , or 0 .
      * @param ray
      * 
-     * @return List<Point>
+     * @return List<GeoPoint>
      */
     @Override
-    public List<Point> findIntersections(Ray ray) {
-        List<Point> list = super.plane.findIntersections(ray);
+    public List<GeoPoint> findGeoIntersections(Ray ray) {
+        List<GeoPoint> list = super.plane.findGeoIntersections(ray);
         if (list == null)
             return null;
 

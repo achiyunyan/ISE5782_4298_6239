@@ -11,7 +11,7 @@ import static primitives.Util.*;
  * 
  * @author Dan
  */
-public class Polygon implements Geometry {
+public class Polygon extends Geometry {
 	/**
 	 * List of polygon's vertices
 	 */
@@ -101,11 +101,11 @@ public class Polygon implements Geometry {
      * can be 1 , or 0 .
      * @param ray
      * 
-     * @return List<Point>
+     * @return List<GeoPoint>
      */
 	@Override
-	public List<Point> findIntersections(Ray ray) {
-		List<Point> list = plane.findIntersections(ray);
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+		List<GeoPoint> list = plane.findGeoIntersections(ray);
         if (list == null)
             return null;
 		boolean positive = true, negative = true;

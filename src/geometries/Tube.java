@@ -6,7 +6,7 @@ import primitives.Point;
 import primitives.Vector;
 import primitives.Ray;
 
-public class Tube implements Geometry {
+public class Tube extends Geometry {
     protected Ray axisRay;
     protected double radius;
 
@@ -50,6 +50,12 @@ public class Tube implements Geometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         // TODO Auto-generated method stub
         return null;
     }
