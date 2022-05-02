@@ -14,7 +14,7 @@ import geometries.*;
 
 public class ReadXmlDomParser {
 
-    private static final String FILENAME = System.getProperty("user.dir") + "/src/basicRenderTestTwoColors.xml";
+    private static final String FILENAME = System.getProperty("user.dir") + "/xmlfiles/basicRenderTestTwoColors.xml";
 
     public static Scene parse(String name) {
 
