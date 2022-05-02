@@ -135,4 +135,20 @@ public class Vector extends Point {
     public Vector normalize() {
         return this.scale(1 / this.length()); // the scale operation will return a new vector
     }
+
+    // Bonus
+    public Vector rotate(Vector axis, double angle) {
+
+        angle = angle / 180 * Math.PI;
+        double cos = Math.cos(angle), sin = Math.sin(angle);
+        double x = axis.xyz.d1, y = axis.xyz.d2, z = axis.xyz.d3;
+
+        Vector v = new Vector(
+                (cos + Math.pow(x, 2) * (1 - cos)) * this.xyz.d1 + (x * y * (1 - cos) - z * sin) * this.xyz.d2 + (x * z * (1 - cos) + y * sin) * this.xyz.d3,
+                (y * x * (1 - cos) + z * sin) * this.xyz.d1 + (cos + Math.pow(y, 2) * (1 - cos)) * this.xyz.d2 + (y * z * (1 - cos) - x * sin) * this.xyz.d3,
+                (z * x * (1 - cos) - y * sin) * this.xyz.d1 + (z * y * (1 - cos) + x * sin) * this.xyz.d2 + (cos + Math.pow(z, 2) * (1 - cos)) * this.xyz.d3
+        ).normalize();
+
+        return v;
+    }
 }

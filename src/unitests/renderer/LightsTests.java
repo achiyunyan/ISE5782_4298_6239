@@ -184,7 +184,7 @@ public class LightsTests {
 	
 
 	/**
-	 * Produce a picture of a two triangles lighted by a narrow spot light
+	 * Produce a picture of two triangles lighted by a narrow spot light
 	 */
 	
 	@Test
