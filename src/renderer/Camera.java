@@ -189,4 +189,14 @@ public class Camera {
     public double getWidth() {
         return width;
     }
+
+    // Bonus
+    public Camera RotateCamera(Vector axis, double angle) {
+
+        vUp = vUp.rotate(axis, angle);
+        vRight = vRight.rotate(axis, angle);
+        vTo = vTo.rotate(axis, angle);
+
+        return this;
+    }
 }
