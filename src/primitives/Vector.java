@@ -136,7 +136,13 @@ public class Vector extends Point {
         return this.scale(1 / this.length()); // the scale operation will return a new vector
     }
 
-    // Bonus
+    /**
+     * Rotate The Vector around the axis by an angle
+     * 
+     * @param axis The axis
+     * @param angle The angle of rotation
+     * @return The rotated Vector
+     */
     public Vector rotate(Vector axis, double angle) {
 
         angle = angle / 180 * Math.PI;

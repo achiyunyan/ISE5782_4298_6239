@@ -190,7 +190,13 @@ public class Camera {
         return width;
     }
 
-    // Bonus
+    /**
+     * Rotate All Vectors around the axis by an angle
+     * 
+     * @param axis The axis
+     * @param angle The angle of rotation
+     * @return The rotated Vector
+     */
     public Camera RotateCamera(Vector axis, double angle) {
 
         vUp = vUp.rotate(axis, angle);
