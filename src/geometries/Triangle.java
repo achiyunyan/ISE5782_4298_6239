@@ -33,6 +33,7 @@ public class Triangle extends Polygon {
         return "P1: " + vertices.get(0).toString() + "P2: " + vertices.get(1).toString() + "P3: "
                 + vertices.get(2).toString();
     }
+
     /**
      * Return the intersections between the triangle and the ray
      * can be 1 , or 0 .
@@ -41,8 +42,8 @@ public class Triangle extends Polygon {
      * @return List<GeoPoint>
      */
     @Override
-    public List<GeoPoint> findGeoIntersections(Ray ray) {
-        List<GeoPoint> list = super.plane.findGeoIntersections(ray);
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+        List<GeoPoint> list = super.plane.findGeoIntersections(ray, maxDistance);
         if (list == null)
             return null;
 

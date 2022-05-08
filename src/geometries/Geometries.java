@@ -6,6 +6,8 @@ import java.util.List;
 import primitives.Point;
 import primitives.Ray;
 
+import static primitives.Util.alignZero;
+
 public class Geometries extends Intersectable {
     List<Geometry> geometries;
 
@@ -44,7 +46,7 @@ public class Geometries extends Intersectable {
      * 
      */
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         if (geometries.size() == 0)
         return null;
         boolean intersections = false;
@@ -54,11 +56,12 @@ public class Geometries extends Intersectable {
             if (geo != null) {
                 intersections = true;
                 for (Point point : geo) {
-                    result.add(new GeoPoint(geometry, point));
+                    if (alignZero(point.distance(ray.getP0()) - maxDistance) <= 0)
+                        result.add(new GeoPoint(geometry, point));
                 }
             }
         }
-        if(intersections)
+        if (intersections)
             return result;
         return null; 
     }

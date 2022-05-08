@@ -104,8 +104,8 @@ public class Polygon extends Geometry {
      * @return List<GeoPoint>
      */
 	@Override
-	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-		List<GeoPoint> list = plane.findGeoIntersections(ray);
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+		List<GeoPoint> list = plane.findGeoIntersections(ray, maxDistance);
         if (list == null)
             return null;
 		boolean positive = true, negative = true;
@@ -126,7 +126,7 @@ public class Polygon extends Geometry {
 				return null;	
 		}
 		
-		if(positive||negative)
+		if (positive || negative)
 			return list;
 		return null;	
 	}

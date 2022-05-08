@@ -34,5 +34,4 @@ public class SpotLight extends PointLight {
         this.narrowness = narrowness;
         return this;
     }
-
 }

@@ -9,6 +9,12 @@ import lighting.LightSource;
 import scene.Scene;
 
 public class RayTracerBasic extends RayTracerBase {
+
+    /**
+     * Constant for first moving magnitude rays for shading rays
+     */
+    private static final double DELTA = 0.1;
+
     /**
      * Ctor for 'RayTracerBasic'
      *
@@ -20,7 +26,7 @@ public class RayTracerBasic extends RayTracerBase {
 
     /**
      * returns the color of the ray
-     * 
+     *
      * @param ray
      * @return the color of the ray
      */
@@ -44,15 +50,17 @@ public class RayTracerBasic extends RayTracerBase {
             return Color.BLACK;
         int nShininess = gp.geometry.getMaterial().nShininess;
         Double3 kd = gp.geometry.getMaterial().kD, ks = gp.geometry.getMaterial().kS;
-        Color color = Color.BLACK;
 
+        Color color = Color.BLACK;
         for (LightSource lightSource : scene.lights) {
             Vector l = lightSource.getL(gp.point);
             double nl = Util.alignZero(n.dotProduct(l));
             if (nl * nv > 0) { // sign(nl) == sing(nv)
-                Color lightIntensity = lightSource.getIntensity(gp.point);
-                color = color.add(lightIntensity.scale(calcDiffusive(kd, l, n, lightIntensity)),
-                lightIntensity.scale(calcSpecular(ks, l, n, v, nShininess, lightIntensity)));
+                if (unshaded(gp, l, n, lightSource)) {
+                    Color lightIntensity = lightSource.getIntensity(gp.point);
+                    color = color.add(lightIntensity.scale(calcDiffusive(kd, l, n, lightIntensity)),
+                            lightIntensity.scale(calcSpecular(ks, l, n, v, nShininess, lightIntensity)));
+                }
             }
         }
         return color;
@@ -66,5 +74,22 @@ public class RayTracerBasic extends RayTracerBase {
     private Double3 calcDiffusive(Double3 kd, Vector l, Vector n, Color lightIntensity) {
         double ln = l.dotProduct(n);
         return kd.scale(Math.abs(ln));
+    }
+
+    /**
+     * UnShaded
+     * @param gp Geo Point
+     * @param l Vector
+     * @return
+     */
+    private boolean unshaded(GeoPoint gp, Vector l, Vector n, LightSource ls) {
+            Vector lightDirection = l.scale(-1); // from point to light source
+            Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : - DELTA);
+            Point point = gp.point.add(delta);
+            Ray lightRay = new Ray(point, lightDirection);
+            double maxDistance = ls.getDistance(point);
+            List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay, maxDistance);
+
+            return intersections == null || intersections.isEmpty();
     }
 }
