@@ -52,13 +52,6 @@ public class RayTracerBasic extends RayTracerBase {
         return calcColor(geopoint, ray, MAX_CALC_COLOR_LEVEL, INITIAL_K)
                 .add(scene.ambientLight.getIntensity());
     }
-    /*
-     * private Color calcColor(GeoPoint geopoint, Ray ray) {
-     * return calcColor(findClosestIntersection(ray), ray, MAX_CALC_COLOR_LEVEL,
-     * INITIAL_K)
-     * .add(scene.ambientLight.getIntensity(), geopoint.geometry.getEmission());
-     * }
-     */
 
     /**
      * Calculates the color recursively
@@ -199,6 +192,15 @@ public class RayTracerBasic extends RayTracerBase {
         return intersections == null || intersections.isEmpty() || gp.geometry.getMaterial().kT != Double3.ZERO;
     }
 
+    /**
+     * Calculates the Transparency
+     * 
+     * @param geoPoint The Geo Point
+     * @param ls The Light Source
+     * @param l 
+     * @param n
+     * @return a numerical value for the transparency
+     */
     private Double3 transparency(GeoPoint geoPoint, LightSource ls, Vector l, Vector n) {
         Vector lightDirection = l.scale(-1); // from point to light source
         Ray lightRay = new Ray(geoPoint.point, lightDirection,n);
