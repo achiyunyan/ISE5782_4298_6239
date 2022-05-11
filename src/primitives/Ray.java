@@ -4,6 +4,8 @@ import java.util.List;
 import geometries.Intersectable.GeoPoint; 
 
 public class Ray {
+    private static final double DELTA = 0.1;
+
     private Point p0;
     private Vector dir;
 
@@ -18,6 +20,17 @@ public class Ray {
         this.dir = dir.normalize();
     }
 
+    /**
+     * Construcor for 'Ray'
+     * 
+     * @param p0
+     * @param dir
+     */
+    public Ray(Point p0, Vector dir, Vector n) {
+        Vector delta = n.scale(n.dotProduct(dir) > 0 ? DELTA :- DELTA);
+        this.p0 = p0.add(delta);
+        this.dir = dir.normalize();
+    }
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

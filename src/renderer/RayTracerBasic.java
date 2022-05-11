@@ -13,7 +13,6 @@ public class RayTracerBasic extends RayTracerBase {
     /**
      * Constant for first moving magnitude rays for shading rays
      */
-    private static final double DELTA = 0.1;
 
     private static final int MAX_CALC_COLOR_LEVEL = 10;
     private static final double MIN_CALC_COLOR_K = 0.001;
@@ -53,10 +52,13 @@ public class RayTracerBasic extends RayTracerBase {
         return calcColor(geopoint, ray, MAX_CALC_COLOR_LEVEL, INITIAL_K)
                 .add(scene.ambientLight.getIntensity());
     }
-    /*private Color calcColor(GeoPoint geopoint, Ray ray) {
-        return calcColor(findClosestIntersection(ray), ray, MAX_CALC_COLOR_LEVEL, INITIAL_K)
-                .add(scene.ambientLight.getIntensity(), geopoint.geometry.getEmission());
-    }*/
+    /*
+     * private Color calcColor(GeoPoint geopoint, Ray ray) {
+     * return calcColor(findClosestIntersection(ray), ray, MAX_CALC_COLOR_LEVEL,
+     * INITIAL_K)
+     * .add(scene.ambientLight.getIntensity(), geopoint.geometry.getEmission());
+     * }
+     */
 
     /**
      * Calculates the color recursively
@@ -153,8 +155,7 @@ public class RayTracerBasic extends RayTracerBase {
      * @return
      */
     private Ray constructReflectedRay(Point point, Vector v, Vector n) {
-        Vector delta = n.scale(n.dotProduct(v) > 0 ? DELTA :- DELTA);
-        return new Ray(point.add(delta), v.subtract(n.scale(2 * v.dotProduct(n))));
+        return new Ray(point, v.subtract(n.scale(2 * v.dotProduct(n))), n);
     }
 
     /**
@@ -166,8 +167,7 @@ public class RayTracerBasic extends RayTracerBase {
      * @return
      */
     private Ray constructRefractedRay(Point point, Vector v, Vector n) {
-        Vector delta = n.scale(n.dotProduct(v) > 0 ? DELTA :- DELTA);
-        return new Ray(point.add(delta), v);
+        return new Ray(point, v, n);
     }
 
     /**
@@ -178,7 +178,7 @@ public class RayTracerBasic extends RayTracerBase {
      */
     private GeoPoint findClosestIntersection(Ray ray) {
         List<GeoPoint> l = scene.geometries.findGeoIntersections(ray);
-        if (l == null) //golo
+        if (l == null) // golo
             return null;
         return ray.findClosestGeoPoint(l);
     }
@@ -192,9 +192,7 @@ public class RayTracerBasic extends RayTracerBase {
      */
     private boolean unshaded(GeoPoint gp, Vector l, Vector n, LightSource ls) {
         Vector lightDirection = l.scale(-1); // from point to light source
-        Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
-        Point point = gp.point.add(delta);
-        Ray lightRay = new Ray(point, lightDirection);
+        Ray lightRay = new Ray(gp.point, lightDirection,n);
         double maxDistance = ls.getDistance(gp.point);
         List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay, maxDistance);
 
@@ -203,17 +201,17 @@ public class RayTracerBasic extends RayTracerBase {
 
     private Double3 transparency(GeoPoint geoPoint, LightSource ls, Vector l, Vector n) {
         Vector lightDirection = l.scale(-1); // from point to light source
-        Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
-        Point point = geoPoint.point.add(delta);
-        Ray lightRay = new Ray(point, lightDirection);
+        Ray lightRay = new Ray(geoPoint.point, lightDirection,n);
         double lightDistance = ls.getDistance(geoPoint.point);
         var intersections = scene.geometries.findGeoIntersections(lightRay);
-        if (intersections == null) return new Double3(1.0);
+        if (intersections == null)
+            return new Double3(1.0);
         Double3 ktr = new Double3(1.0);
         for (GeoPoint gp : intersections) {
             if (Util.alignZero(gp.point.distance(geoPoint.point) - lightDistance) <= 0) {
                 ktr = ktr.product(gp.geometry.getMaterial().kT);
-                if (ktr.lowerThan(MIN_CALC_COLOR_K)) return new Double3(0.0);
+                if (ktr.lowerThan(MIN_CALC_COLOR_K))
+                    return new Double3(0.0);
             }
         }
         return ktr;
