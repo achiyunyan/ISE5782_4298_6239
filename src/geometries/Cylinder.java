@@ -1,8 +1,8 @@
 package geometries;
 
-import primitives.Point;
-import primitives.Ray;
-import primitives.Util;
+import java.util.*;
+
+import primitives.*;
 import primitives.Vector;
 
 public class Cylinder extends Tube {
@@ -61,5 +61,21 @@ public class Cylinder extends Tube {
 
     public double getHeight() {
         return height;
+    }
+
+    @Override
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double max) {
+        List<GeoPoint> res = new ArrayList<>();
+        List<GeoPoint> lst = super.findGeoIntersectionsHelper(ray,max);
+        if (lst != null)
+            for (GeoPoint geoPoint : lst) {
+                double distance = Util.alignZero(geoPoint.point.subtract(axisRay.getP0()).dotProduct(axisRay.getDir()));
+                if (distance > 0 && distance <= height)
+                    res.add(geoPoint);
+            }
+
+        if (res.size() == 0)
+            return null;
+        return res;
     }
 }
