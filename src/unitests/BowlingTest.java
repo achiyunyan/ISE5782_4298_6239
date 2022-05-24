@@ -48,29 +48,34 @@ public class BowlingTest {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        scene.setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.15))).setBackground(new Color(173, 216, 230));
-        scene.geometries.add(new Plane(new Point(10, -0.5, 0), new Vector(0, 1, 0)).setEmission(new Color(RED)) //
+        // scene.setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.15)))
+        scene.setBackground(new Color(173, 216, 230));
+        scene.geometries.add(new Plane(new Point(10, -0.5, 0), new Vector(0, 1, 0)).setEmission(new Color(0, 100, 0)) //
                 .setMaterial(new Material()));
 
         scene.geometries.add(
                 new Polygon(new Point(60, 0, -20), new Point(60, 0, 20), new Point(-60, 0, 20))
-                        .setEmission(new Color(78,79,85))
-                        .setMaterial(new Material().setKr(0.025)),
+                        //.setEmission(new Color(78,79,85))
+                        .setMaterial(new Material().setKr(0.05))
+                        .setEmission(new Color(205,158,112)),
                 new Polygon(new Point(60, 0, -20), new Point(-60, 0, 20), new Point(-60, 0, -20))
-                        .setEmission(new Color(78,79,85))
-                        .setMaterial(new Material().setKr(0.025))
+                        //.setEmission(new Color(78,79,85))
+                        .setMaterial(new Material().setKr(0.05))
+                        .setEmission(new Color(205,158,112))
         );
 
         scene.geometries.add(
                 new Polygon(new Point(60, 0, -20), new Point(-60, 0, -20), new Point(60, 40, -20))
+                        .setMaterial(new Material().setKt(0.1))
                         .setEmission(new Color(BLACK)),
                 new Polygon(new Point(60, 0, -20), new Point(60, 0, 20), new Point(60, 40, 20))
-                        .setMaterial(new Material().setKr(0.1))
+                        .setMaterial(new Material().setKt(0.1))
                         .setEmission(new Color(BLACK)),
                 new Polygon(new Point(60, 0, -20), new Point(60, 40, -20), new Point(60, 40, 20))
-                        .setMaterial(new Material().setKr(0.1))
+                        .setMaterial(new Material().setKt(0.1))
                         .setEmission(new Color(BLACK)),
                 new Polygon(new Point(60, 0, 20), new Point(60, 40, 20), new Point(-60, 0, 20))
+                        .setMaterial(new Material().setKt(0.1))
                         .setEmission(new Color(BLACK))
         );
 
@@ -105,7 +110,7 @@ public class BowlingTest {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        ImageWriter imageWriter = new ImageWriter("Bowling", 600, 600);
+        ImageWriter imageWriter = new ImageWriter("Bowling", 1500, 1500);
         camera.setImageWriter(imageWriter) //
                 .setRayTracer(new RayTracerBasic(scene)) //
                 .renderImage() //
