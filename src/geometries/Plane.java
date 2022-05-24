@@ -69,11 +69,23 @@ public class Plane extends Geometry {
      */
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
-        double nv = normal.dotProduct(ray.getDir());
+        Point P0 = ray.getP0();
+        Vector v = ray.getDir();
+        Vector n = normal;
+        double nv = n.dotProduct((v));
         if (isZero(nv))
             return null;
 
-        double t = alignZero(normal.dotProduct(q0.subtract(ray.getP0())) / nv);
+        if (q0.equals(P0))
+            return null;
+
+        Vector Q0_P0 = q0.subtract(P0);
+        double numerator = n.dotProduct(Q0_P0);
+        if (isZero(numerator) || (numerator < 0.000001 && numerator > -0.000001)) {
+            return null;
+        }
+        double t = alignZero(numerator / nv);
+
         if (alignZero(t - maxDistance) > 0)
             return null;
         if (t > 0) {
@@ -81,7 +93,7 @@ public class Plane extends Geometry {
             List<GeoPoint> inter = List.of(new GeoPoint(this, intersect));
             return inter;
         }
-        
+
         return null;
     }
 }

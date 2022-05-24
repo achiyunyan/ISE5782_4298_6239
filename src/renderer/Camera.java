@@ -160,7 +160,7 @@ public class Camera {
      */
     public Ray constructRay(int nX, int nY, int j, int i) {
         Point Pc = p0.add(vTo.scale(distance));
-
+        
         double Rx = Util.alignZero(width / nX);
         double Ry = Util.alignZero(height / nY);
 

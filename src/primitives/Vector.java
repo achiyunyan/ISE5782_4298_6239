@@ -36,7 +36,7 @@ public class Vector extends Point {
             return false;
         if (!(obj instanceof Vector))
             return false;
-            
+
         Point other = (Point) obj;
         return super.equals(other);
     }
@@ -139,7 +139,7 @@ public class Vector extends Point {
     /**
      * Rotate The Vector around the axis by an angle
      * 
-     * @param axis The axis
+     * @param axis  The axis
      * @param angle The angle of rotation
      * @return The rotated Vector
      */
@@ -150,11 +150,38 @@ public class Vector extends Point {
         double x = axis.xyz.d1, y = axis.xyz.d2, z = axis.xyz.d3;
 
         Vector v = new Vector(
-                (cos + Math.pow(x, 2) * (1 - cos)) * this.xyz.d1 + (x * y * (1 - cos) - z * sin) * this.xyz.d2 + (x * z * (1 - cos) + y * sin) * this.xyz.d3,
-                (y * x * (1 - cos) + z * sin) * this.xyz.d1 + (cos + Math.pow(y, 2) * (1 - cos)) * this.xyz.d2 + (y * z * (1 - cos) - x * sin) * this.xyz.d3,
-                (z * x * (1 - cos) - y * sin) * this.xyz.d1 + (z * y * (1 - cos) + x * sin) * this.xyz.d2 + (cos + Math.pow(z, 2) * (1 - cos)) * this.xyz.d3
-        ).normalize();
+                (cos + Math.pow(x, 2) * (1 - cos)) * this.xyz.d1 + (x * y * (1 - cos) - z * sin) * this.xyz.d2
+                        + (x * z * (1 - cos) + y * sin) * this.xyz.d3,
+                (y * x * (1 - cos) + z * sin) * this.xyz.d1 + (cos + Math.pow(y, 2) * (1 - cos)) * this.xyz.d2
+                        + (y * z * (1 - cos) - x * sin) * this.xyz.d3,
+                (z * x * (1 - cos) - y * sin) * this.xyz.d1 + (z * y * (1 - cos) + x * sin) * this.xyz.d2
+                        + (cos + Math.pow(z, 2) * (1 - cos)) * this.xyz.d3)
+                .normalize();
 
         return v;
+    }
+
+    /**
+     * 
+     * @return a normal vector to the caller
+     */
+    public Vector findNormal() {
+        if (Util.alignZero(xyz.d3) != 0) {
+            Vector vz = new Vector(1, 0, -xyz.d1 / xyz.d3);
+            if (vz.equals(this))
+                return new Vector(1, 1, -(xyz.d1 + xyz.d2) / xyz.d3);
+            else
+                return vz;
+        } else {
+            if (Util.alignZero(xyz.d2) != 0) {
+                Vector v = new Vector(1, -xyz.d1 / xyz.d2, 1);
+                if (v.equals(this))
+                    return new Vector(1, -xyz.d1 / xyz.d2, 0);
+                else
+                    return v;
+            } else
+                return new Vector(0, 1, 0);
+
+        }
     }
 }

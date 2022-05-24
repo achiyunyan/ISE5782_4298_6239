@@ -1,7 +1,7 @@
 package primitives;
 
 import java.util.List;
-import geometries.Intersectable.GeoPoint; 
+import geometries.Intersectable.GeoPoint;
 
 public class Ray {
     private static final double DELTA = 0.1;
@@ -27,10 +27,11 @@ public class Ray {
      * @param dir
      */
     public Ray(Point p0, Vector dir, Vector n) {
-        Vector delta = n.scale(n.dotProduct(dir) > 0 ? DELTA :- DELTA);
+        Vector delta = n.scale(n.dotProduct(dir) > 0 ? DELTA : -DELTA);
         this.p0 = p0.add(delta);
         this.dir = dir.normalize();
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -48,6 +49,7 @@ public class Ray {
     public String toString() {
         return "p0= " + p0.toString() + "dir= " + dir.toString();
     }
+
     /**
      * Return the closest point to the 'p0' of the ray
      * 
@@ -56,9 +58,8 @@ public class Ray {
      */
     public Point findClosestPoint(List<Point> points) {
         return points == null || points.isEmpty() ? null
-               : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
+                : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
     }
-    
 
     /**
      * Return the closest geopoint to the 'p0' of the ray
@@ -84,7 +85,6 @@ public class Ray {
         }
         return list.get(closest);
     }
-
 
     /**
      * Returns a point on a ray by the given scalar

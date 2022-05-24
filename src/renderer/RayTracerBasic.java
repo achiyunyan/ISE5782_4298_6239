@@ -2,6 +2,8 @@ package renderer;
 
 import java.util.*;
 
+import static java.lang.System.out;
+
 import primitives.*;
 import primitives.Vector;
 import geometries.Intersectable.GeoPoint;
@@ -14,9 +16,13 @@ public class RayTracerBasic extends RayTracerBase {
      * Constant for first moving magnitude rays for shading rays
      */
 
-    private static final int MAX_CALC_COLOR_LEVEL = 10;
-    private static final double MIN_CALC_COLOR_K = 0.001;
-    private static final Double3 INITIAL_K = new Double3(1.0);
+    private static final int MAX_CALC_COLOR_LEVEL = 3;
+    private static final double MIN_CALC_COLOR_K = 0.1;
+    private static final Double3 INITIAL_K = new Double3(1);
+
+    private double DISTANCE = 350;
+    private double RADIUS = 5;
+    private int RAYSNUM = 1;
 
     /**
      * Ctor for 'RayTracerBasic'
@@ -25,6 +31,32 @@ public class RayTracerBasic extends RayTracerBase {
      */
     public RayTracerBasic(Scene scene) {
         super(scene);
+    }
+
+    /**
+     * Activates the improvement "Glossy/Blurry"
+     * 
+     * @param raysNum
+     * @return
+     */
+    public RayTracerBasic setGlossyBlurry(int raysNum, double distance, double radius) {
+        RAYSNUM = raysNum;
+        RADIUS = radius;
+        DISTANCE = distance;
+        return this;
+
+    }
+
+    /**
+     * Activates the improvement "Glossy/Blurry"
+     * 
+     * @param raysNum
+     * @return
+     */
+    public RayTracerBasic setGlossyBlurry(int raysNum) {
+        RAYSNUM = raysNum;
+        return this;
+
     }
 
     /**
@@ -63,6 +95,7 @@ public class RayTracerBasic extends RayTracerBase {
      * @return
      */
     public Color calcColor(GeoPoint gp, Ray ray, int level, Double3 k) {
+        // out.println(level);
         Color color = calcLocalEffects(gp, ray, k);
         return 1 == level ? color : color.add(calcGlobalEffects(gp, ray.getDir(), level, k));
     }
@@ -82,11 +115,16 @@ public class RayTracerBasic extends RayTracerBase {
         Material material = gp.geometry.getMaterial();
         Double3 kkr = k.product(material.kR);
         if (!kkr.lowerThan(MIN_CALC_COLOR_K))
-            color = calcGlobalEffect(constructReflectedRay(gp.point, v, n), level, material.kR, kkr);
+            color = calcGlobalEffect(
+                    generateBeamToCircle(constructReflectedRay(gp.point, v, n), DISTANCE, RADIUS),
+                    level, material.kR, kkr);
         Double3 kkt = k.product(material.kT);
         if (!kkt.lowerThan(MIN_CALC_COLOR_K))
             color = color.add(
-                    calcGlobalEffect(constructRefractedRay(gp.point, v, n), level, material.kT, kkt));
+                    calcGlobalEffect(
+                            generateBeamToCircle(constructRefractedRay(gp.point, v, n),
+                                    DISTANCE, RADIUS),
+                            level, material.kT, kkt));
         return color;
     }
 
@@ -94,6 +132,33 @@ public class RayTracerBasic extends RayTracerBase {
         GeoPoint gp = findClosestIntersection(ray);
         return (gp == null ? scene.background : calcColor(gp, ray, level - 1, kkx)).scale(kx);
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Global effect of list of rays
+     * 
+     * @param ray
+     * @param level
+     * @param kx
+     * @param kkx
+     * @return
+     */
+    private Color calcGlobalEffect(List<Ray> rays, int level, Double3 kx, Double3 kkx) {
+        Color sum = new Color(0, 0, 0);
+        int intersectionsnum = 0;
+        for (Ray ray : rays) {
+            GeoPoint gp = findClosestIntersection(ray);
+            if (gp != null) {
+                sum = sum.add(calcColor(gp, ray, level, kkx));
+                intersectionsnum++;
+            } 
+        }
+        if (intersectionsnum > 0)
+            sum = sum.reduce(intersectionsnum);
+        return (intersectionsnum == 0 ? scene.background : sum).scale(kx);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Calculate the color effects caused by the material itself
@@ -148,7 +213,7 @@ public class RayTracerBasic extends RayTracerBase {
      * @return
      */
     private Ray constructReflectedRay(Point point, Vector v, Vector n) {
-        return new Ray(point, v.subtract(n.scale(2 * v.dotProduct(n))), n);
+        return new Ray(point.add(n.normalize().scale(0.001)), v.subtract(n.scale(2 * v.dotProduct(n))), n);
     }
 
     /**
@@ -160,7 +225,7 @@ public class RayTracerBasic extends RayTracerBase {
      * @return
      */
     private Ray constructRefractedRay(Point point, Vector v, Vector n) {
-        return new Ray(point, v, n);
+        return new Ray(point.add(n.normalize().scale(-0.001)), v, n);
     }
 
     /**
@@ -215,5 +280,48 @@ public class RayTracerBasic extends RayTracerBase {
                 return new Double3(0.0);
         }
         return ktr;
+    }
+
+    /**
+     * 
+     * 
+     * @param source
+     * @param target
+     * @param radius
+     * @return
+     */
+    private List<Ray> generateBeamToCircle(Ray ray, double distance, double radius) {
+        Point source = ray.getP0();
+        Vector dir = ray.getDir();
+        List<Ray> list = new LinkedList<Ray>();
+        // First find the center of the created target area
+        Point pCenter = source.add(dir.normalize().scale(distance));
+        // Then find another point on the circle and create two orthogonal vectors
+
+        Vector vUp = dir.findNormal().normalize();
+        Vector vRight = dir.crossProduct(vUp).normalize();
+
+        // Now iteratively create ray beam two the square which contains the circle
+        // Include only rays directed to the circle
+
+        int length = (int) Math.sqrt(RAYSNUM);
+        double R = Util.alignZero(2 * radius / length);
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                double xJ = Util.alignZero((j - (double) (length - 1) / 2) * R);
+                double yI = Util.alignZero(-(i - (double) (length - 1) / 2) * R);
+                Point pIJ = pCenter;
+                if (xJ != 0)
+                    pIJ = pIJ.add(vRight.scale(xJ));
+                if (yI != 0)
+                    pIJ = pIJ.add(vUp.scale(yI));
+                double d = pIJ.distance(pCenter);
+                if (radius > d) {
+                    list.add(new Ray(source, pIJ.subtract(source).normalize().scale(dir.length())));
+                }
+            }
+        }
+
+        return list.size() != 0 ? list : null;
     }
 }
