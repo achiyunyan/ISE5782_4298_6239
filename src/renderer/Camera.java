@@ -3,6 +3,8 @@ package renderer;
 import java.util.MissingResourceException;
 
 import primitives.*;
+import renderer.Pixel;
+import java.util.stream.*;
 
 public class Camera {
     // Camera Fields
@@ -106,9 +108,17 @@ public class Camera {
         if (rTracerBasic == null)
             throw new MissingResourceException("Missing rayTracer!", "RayTracer", null);
 
+        IntStream.range(0, iWriter.getNy()).parallel().forEach(i -> {
+            IntStream.range(0, iWriter.getNx()).parallel().forEach(j -> {
+                iWriter.writePixel(i, j, castRay(i, j));
+            });
+        });
+
+        /*
         for (int i = 0; i < iWriter.getNx(); i++)
             for (int j = 0; j < iWriter.getNy(); j++)
                 iWriter.writePixel(i, j, castRay(i, j));
+        */
 
         return this;        
     }
@@ -129,7 +139,7 @@ public class Camera {
      * @param interval the space between grids
      * @param color    the color of the lines
      */
-    public void printGrid(int interval, Color color) {
+    public Camera printGrid(int interval, Color color) {
         if (iWriter == null)
             throw new MissingResourceException("Missing ImageWriter!", "ImageWriter", null);
 
@@ -137,6 +147,8 @@ public class Camera {
             for (int j = 0; j < iWriter.getNy(); j++)
                 if (i % interval == 0 || j % interval == 0)
                     iWriter.writePixel(i, j, color);
+
+        return this;
     }
 
     /**
