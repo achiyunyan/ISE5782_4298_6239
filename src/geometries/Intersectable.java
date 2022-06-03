@@ -3,7 +3,15 @@ package geometries;
 import java.util.*;
 import primitives.*;
 
+
 public abstract class Intersectable {
+    public static boolean isBox = true;
+    Box box;
+
+    public Boolean isIntersection(Ray ray){
+       return !isBox || box.isIntersection(ray);
+    }
+
     /**
      * Returns the Intersections (List of Points) of the Geometry with the Given Ray.
      * 
@@ -17,11 +25,11 @@ public abstract class Intersectable {
     }
 
     public final List<GeoPoint> findGeoIntersections(Ray ray) {
-        return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
+        return isIntersection(ray)? findGeoIntersections(ray, Double.POSITIVE_INFINITY):null;
     }
 
     public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
-        return findGeoIntersectionsHelper(ray, maxDistance);
+        return isIntersection(ray)? findGeoIntersectionsHelper(ray, maxDistance):null;
     }
 
     protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
