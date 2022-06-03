@@ -18,6 +18,12 @@ public class Cylinder extends Tube {
     public Cylinder(Ray axisRay, double radius, double height) {
         super(axisRay, radius);
         this.height = height;
+
+        // Create Box
+        Double3 p0 = new Double3(axisRay.getP0().getX() - radius, axisRay.getP0().getY() - radius, axisRay.getP0().getZ() - radius);
+        Point center = axisRay.getP0().add(axisRay.getDir().scale(height));
+        Double3 p1 = new Double3(center.getX() + radius, center.getY() + radius, center.getZ() + radius);
+        this.box = new Box(p0, p1);
     }
 
     /**

@@ -3,8 +3,7 @@ package geometries;
 import java.util.LinkedList;
 import java.util.List;
 
-import primitives.Point;
-import primitives.Ray;
+import primitives.*;
 import static primitives.Util.*;
 import primitives.Vector;
 
@@ -21,6 +20,11 @@ public class Sphere extends Geometry {
     public Sphere(Point center, double radius) {
         this.center = center;
         this.radius = radius;
+
+        // Create Box
+        Double3 p0 = new Double3(center.getX() - radius, center.getY() - radius, center.getZ() - radius);
+        Double3 p1 = new Double3(center.getX() + radius, center.getY() + radius, center.getZ() + radius);
+        this.box = new Box(p0, p1);
     }
 
     /**
