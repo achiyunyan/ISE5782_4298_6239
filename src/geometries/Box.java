@@ -43,19 +43,12 @@ public class Box {
         double tmax = Math.min(Math.min(Math.max(t1, t2), Math.max(t3, t4)), Math.max(t5, t6));
 
         // if tmax < 0, ray (line) is intersecting AABB, but the whole AABB is behind us
-        if (tmax < 0) {
-
+        if (tmax < 0)
             return false;
-        }
 
         // if tmin > tmax, ray doesn't intersect AABB
-        if (tmin > tmax) {
-
+        if (tmin > tmax)
             return false;
-        }
-
-
         return true;
     }
-
 }
