@@ -10,8 +10,6 @@ import lighting.*;
 import org.junit.jupiter.api.Test;
 import scene.Scene;
 
-import javax.swing.*;
-
 import static java.awt.Color.*;
 
 public class BowlingTest {

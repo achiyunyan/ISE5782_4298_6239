@@ -5,11 +5,11 @@ import primitives.*;
 
 
 public abstract class Intersectable {
-    public static boolean isBox = false;
-    Box box;
+    public static boolean isBox = true;
+    Box box = null;
 
     public Boolean isIntersection(Ray ray){
-       return !isBox || box.isIntersection(ray);
+       return (!isBox||box==null )|| box.isIntersection(ray);
     }
 
     /**

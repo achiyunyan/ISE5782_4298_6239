@@ -22,8 +22,8 @@ public class Sphere extends Geometry {
         this.radius = radius;
 
         // Create Box
-        Double3 p0 = new Double3(center.getX() - radius, center.getY() - radius, center.getZ() - radius);
-        Double3 p1 = new Double3(center.getX() + radius, center.getY() + radius, center.getZ() + radius);
+        Point p0 = new Point(center.getX() - radius, center.getY() - radius, center.getZ() - radius);
+        Point p1 = new Point(center.getX() + radius, center.getY() + radius, center.getZ() + radius);
         this.box = new Box(p0, p1);
     }
 
