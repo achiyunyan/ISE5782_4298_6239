@@ -5,7 +5,7 @@ import primitives.*;
 
 
 public abstract class Intersectable {
-    public static boolean isBox = true;
+    public static boolean isBox = false;
     Box box;
 
     public Boolean isIntersection(Ray ray){
